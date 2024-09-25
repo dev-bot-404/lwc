@@ -1,0 +1,41 @@
+<!-- sldsValidatorIgnore -->
+<!-- sldsValidatorIgnore -->
+<template>
+    <div class="slds-box bodyColor">
+        <div class="slds-grid slds-wrap ">
+            <div class="slds-col slds-size_6-of-12 slds-var-p-around_medium">
+                <lightning-combobox
+                    name="object"
+                    label="Object"
+                    value={value}
+                    placeholder="Select Object"
+                    options={options}
+                    onchange={handleChangeInCombobox} >
+                </lightning-combobox>
+                <br>
+                <template if:true={showObjectTable}>
+                    <lightning-datatable
+                        key-field="id"
+                        data={objectData}
+                        columns={recordcolumns}
+                        data-id={Id}
+                        onrowselection={handleObjectRowCheck}
+                        onrowaction={handleRowActionOfObjectRecords}>
+                    </lightning-datatable>
+                </template>
+            </div>
+            <div class="slds-col slds-size_6-of-12 slds-var-p-around_medium">
+                <br><br><br><br>
+                <lightning-datatable
+                    key-field="id"
+                    data={userRecords}
+                    columns={usercolumns}
+                    data-id={Id}
+                    onrowselection={handleUserRowSelection}
+                    onrowaction={handleAssignButton}>
+                </lightning-datatable>
+            </div>
+        </div>
+    </div>        
+    
+</template>

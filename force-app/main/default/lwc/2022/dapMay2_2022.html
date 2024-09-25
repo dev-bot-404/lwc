@@ -1,0 +1,52 @@
+<template>
+    <lightning-card title="Acount with Contact and Opportunity" icon-name="custom:custom14">    
+            <lightning-accordion allow-multiple-sections-open={multiple}>
+                <template if:true={accountsData}>
+                    <template for:each={accountsData} for:item="acc">                 
+                        <lightning-accordion-section name={acc.Name} label={acc.Name} key={acc.Id}>
+                            <div class="slds-grid slds-wrap slds-m-around_x-small">
+                                <div class="slds-col slds-size_1-of-3 slds-text-align_right">
+                                    <lightning-button
+                                        label="Edit"
+                                        onclick={handleEditAccount}
+                                        data-id={acc.Id}
+                                        variant="brand"
+                                        class="slds-m-right_x-small">
+                                    </lightning-button>
+                                    <lightning-button
+                                        label="Delete"
+                                        onclick={handleDeleteAccount}
+                                        data-id={acc.Id}
+                                        variant="brand">
+                                    </lightning-button>
+                                </div>
+                            </div>       
+                                <lightning-accordion allow-multiple-sections-open={multiple}>
+                                    <lightning-accordion-section name="Contacts" label="Contacts">
+                                        <table>
+                                            <template for:each={acc.Contacts} for:item="con">
+                                                <tr key={con.Id} class="slds-p-around_x-small slds-m-around_xx-small">
+                                                    <td>{con.Name}</td>
+                                                    <td><lightning-button  data-id={con.Id} onclick={handleconDelete} label="Delete" variant="brand"></lightning-button> </td>                                                                          
+                                                </tr>
+                                            </template>
+                                        </table>    
+                                    </lightning-accordion-section>
+                                    <lightning-accordion-section name="Opportunities" label="Opportunities">
+                                        <table>
+                                            <template for:each={acc.Opportunities} for:item="opp">
+                                                <tr key={opp.Id} class="slds-p-around_x-small slds-m-around_xx-small">
+                                                    <td>{opp.Name}</td>
+                                                    <td><lightning-button onclick={handleoppDelete} data-id={opp.Id}  label="Delete" variant="brand"></lightning-button> </td>                          
+                                                </tr>
+                                            </template>
+                                        </table>
+                                    </lightning-accordion-section>
+                                </lightning-accordion>
+                            </lightning-accordion-section>
+                    </template>
+                </template>
+            </lightning-accordion>
+        </lightning-card>
+    </template>
+    

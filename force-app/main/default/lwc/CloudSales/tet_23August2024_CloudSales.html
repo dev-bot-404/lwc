@@ -1,0 +1,28 @@
+<template>
+    <div class="slds-box slds-theme_default">
+        <lightning-combobox
+            label="Account"
+            value={value}
+            placeholder="Select Account"
+            options={accounts}
+            onchange={handleSelectAccount} >
+        </lightning-combobox>
+        <br>
+        Total Count Of Opportunities : {totalOppCount}
+        <br>
+        Total Sum Of Opportunities : {totalSumOfOpp}
+        <br>
+        <lightning-datatable
+                key-field="id"
+                data={associatedOpportunities}
+                row-number-offset={rowOffset}
+                suppress-bottom-bar
+                draft-values={draftValues}
+                columns={columns}
+                onrowaction={handleRowAction}
+                hide-checkbox-column="true">
+        </lightning-datatable>
+
+    </div>
+    
+</template>

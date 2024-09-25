@@ -1,0 +1,109 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <div class="slds-box bodyColor">
+        <!--  -->
+        <div class="slds-col slds-size_12-of-12" >
+            <lightning-tabset>
+                <lightning-tab label="Home" value="Home" onactive={handleActive}>
+                </lightning-tab>
+                <lightning-tab label="Business" value="Business" onactive={handleActive}>
+                </lightning-tab>
+                <lightning-tab label="Entertainment" value="Entertainment" onactive={handleActive}>
+                </lightning-tab>
+                <lightning-tab label="General" value="General" onactive={handleActive}>
+                </lightning-tab>
+                <lightning-tab label="Health" value="Health" onactive={handleActive}>
+                </lightning-tab>
+                <lightning-tab label="Science" value="Science" onactive={handleActive}>
+                </lightning-tab>
+                <lightning-tab label="Sports" value="Sports" onactive={handleActive}>
+                </lightning-tab>
+                <lightning-tab label="Technology" value="Technology" onactive={handleActive}>
+                </lightning-tab>
+            </lightning-tabset>
+            
+            <div class="slds-grid slds-wrap slds-align_absolute-center">
+
+                <div class="slds-col slds-size_8-of-12 slds-var-p-around_small">
+                    <lightning-input
+                        name="enter-search"
+                        type="search"
+                        onchange={handleSearchValue}>
+                    </lightning-input>
+                </div>
+
+                <div class="slds-col slds-size_2-of-12 slds-var-p-around_small ">
+                  <lightning-button label="Search" onclick={handleSearch}></lightning-button>
+                </div>
+
+                <div class="slds-col slds-size_2-of-12 slds-var-p-around_small">
+                  <lightning-button label="Filter" onclick={handleFilter}></lightning-button>
+                </div>
+
+            </div>
+        </div>
+        <!--  -->
+        <!--  -->
+        <div if:true={showFilter}>
+            <lightning-card size="small">
+                <div class="slds-grid slds-wrap slds-align_absolute-center">
+                    <div class="slds-col slds-size_5-of-12 slds-var-p-around_small">
+                        News Source
+                    </div>
+
+                    <div class="slds-col slds-size_5-of-12 slds-var-p-around_small">
+                        <lightning-combobox label="News Resource" name="newsResource" value={newsSource} options={newsSource} onchange={handleSelectNews}></lightning-combobox>
+                    </div>
+
+                    <div class="slds-col slds-size_5-of-12 slds-var-p-around_small">
+                        Author
+                    </div>
+
+                    <div class="slds-col slds-size_5-of-12 slds-var-p-around_small">
+                        <lightning-combobox label="Author" name="author" value={authors} options={authors} onchange={handleSelectAuthor}></lightning-combobox>
+                    </div>
+
+                    <div class="slds-col slds-size_5-of-12 slds-var-p-around_small">
+                        Date
+                    </div>
+
+                    <div class="slds-col slds-size_5-of-12 slds-var-p-around_small">
+                        <lightning-combobox label="Date" name="date" value={date} options={date} onchange={handleSelectDate}></lightning-combobox>
+                    </div>
+                </div>
+            </lightning-card>
+        </div>
+        <!--  -->
+        <!--  -->
+        <h1 class="slds-text-heading_large slds-text-title_bold"> Selected Filters</h1>
+        <lightning-tabset>
+            <template for:each={filtertabs} for:item="tab">
+                <lightning-tab label={tab.label} key={tab.value} value={tab.value} onactive={handleActiveFilter}>
+                    <template for:each={filtereditems} for:item="item">
+                        <div key={item}>
+                            <lightning-pill label={item.label} onremove={handleRemovePill}></lightning-pill>
+                        </div>
+                    </template>
+                </lightning-tab>
+            </template>
+        </lightning-tabset>
+        <!--  -->
+        <!--  -->
+        <div class="container">
+            <div class="slds-grid slds-wrap slds-grid_align-center slds-scrollable_y">
+                <template for:each={result} for:item="item">
+                    <div class="card" key={item.id}>
+                      <img class="card-image" src={item.urlToImage} />
+                      <div class="card-text">
+                          <span class="date">{item.date}</span>
+                          <h2>{item.title}</h2>
+                      </div>
+                      <div class="card-stats" onclick={redirectToNewsPage} data-item={item.id}>Read More</div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+
+    </div>
+</template>

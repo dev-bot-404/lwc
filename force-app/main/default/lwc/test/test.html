@@ -1,0 +1,276 @@
+<template>
+    <div class="slds-grid slds-wrap" style="background-color:white">
+    <div class="slds-p-around_medium slds-size_1-of-6" style="background-color:rgb(152, 152, 152)">
+        <lightning-combobox name="accountName" placeholder="Account Name" options={accountOptions} onchange={handleAccountSelect}></lightning-combobox>
+    </div>
+    </div>
+
+    <div class="slds-p-around_medium datatable-container" style="background-color:white">
+        <p>Total Count {oppSize} </p>
+        <p>Total Amount: ${amtTotal}</p>
+        <p>Number of not lost Opportunities: {notLostOppCnt}</p>
+
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered" aria-label="Example default base table of Opportunities">
+            <thead>
+            <tr class="slds-line-height_reset">
+            <th class="" scope="col">
+            <div class="slds-truncate" title="Opportunity Name">Opportunity Name</div>
+            </th>
+            <th class="" scope="col">
+            <div class="slds-truncate" title="Amount">Amount</div>
+            </th>
+            <th class="" scope="col">
+            <div class="slds-truncate" title="Stage">Stage</div>
+            </th>
+            <th class="" scope="col">
+            <div class="slds-truncate" title="Close Date">Close Date</div>
+            </th>
+            </tr>
+            </thead>
+            <tbody>
+            <template for:each={opportunityRows} for:item="opportunityRow">
+
+            <template if:true={opportunityRow.Won}>
+            <tr class="slds-hint-parent" key={opportunityRow.Id} style="background-color:rgb(155, 255, 168)">
+            <th data-label="Opportunity Name" scope="row">
+            <div class="slds-truncate" title="Cloudhub">
+            <a href="#" tabindex="-1">{opportunityRow.Name}</a>
+            </div>
+            </th>
+            <td data-label="Amount">
+            <div class="slds-truncate" >
+                <label ondblclick={handleAmountInline} data-id={opportunityRow.Amount}>{opportunityRow.Amount}</label>
+                <lightning-button-icon
+                class="slds-float_right"
+                icon-name="utility:edit"
+                alternative-text="Update First Name"
+                title="Update First Name"
+                variant="bare"
+                size="medium"
+                onclick={handleFirstNameEdit}
+              ></lightning-button-icon>
+            </div>
+            
+            <template if:true={amountEdit}>
+            <section aria-describedby="dialog-body-id-14" class="slds-popover slds-popover slds-popover_edit" role="dialog" style="position:absolute;top:0;left:0.0625rem" onfocusout={amountEditHandle}>
+                <div class="slds-popover__body" id="dialog-body-id-14">
+                  <div class="slds-media">
+                    <div class="slds-media__body">
+                      <div class="slds-form-element slds-grid slds-wrap">
+                        <label class="slds-form-element__label slds-form-element__label_edit slds-no-flex" for="company-01">
+                          <span class="slds-assistive-text">Amount</span>
+                        </label>
+                        <div class="slds-form-element__control slds-grow">
+                          <input type="text" class="slds-input" id="company-01" value={opportunityRow.Amount} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              </template>
+            </td>
+            <td data-label="StageName">
+            <div class="slds-truncate" ondblclick={handleStageInline}>{opportunityRow.StageName}
+                <lightning-button-icon
+                class="slds-float_right"
+                icon-name="utility:edit"
+                alternative-text="Update First Name"
+                title="Update First Name"
+                variant="bare"
+                size="medium"
+                onclick={handleFirstNameEdit}
+              ></lightning-button-icon>
+            </div>
+            <template if:true={stageEdit}>
+                <section aria-describedby="dialog-body-id-14" class="slds-popover slds-popover slds-popover_edit" role="dialog" style="position:absolute;top:0;left:0.0625rem" onfocusout={stageEditHandle}>
+                    <div class="slds-popover__body" id="dialog-body-id-140">
+                      <div class="slds-media">
+                        <div class="slds-media__body">
+                          <div class="slds-form-element slds-grid slds-wrap">
+                            <label class="slds-form-element__label slds-form-element__label_edit slds-no-flex" for="company-01">
+                              <span class="slds-assistive-text">StageName</span>
+                            </label>
+                            <div class="slds-form-element__control slds-grow">
+                              <input type="text" class="slds-input" id="company-010" value={opportunityRow.StageName} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  </template>
+            </td>
+            <td data-label="Close Date">
+            <div class="slds-truncate">{opportunityRow.CloseDate}</div>
+            </td>
+            </tr>
+            </template>
+
+
+
+            <template if:true={opportunityRow.Lost}>
+                <tr class="slds-hint-parent" key={opportunityRow.Id} style="background-color:rgb(255, 155, 155)">
+                <th data-label="Opportunity Name" scope="row">
+                <div class="slds-truncate" title="Cloudhub">
+                <a href="#" tabindex="-1">{opportunityRow.Name}</a>
+                </div>
+                </th>
+                <td data-label="Amount">
+                    <div class="slds-truncate" ondblclick={handleAmountInline}>{opportunityRow.Amount}
+                        <lightning-button-icon
+                        class="slds-float_right"
+                        icon-name="utility:edit"
+                        alternative-text="Update First Name"
+                        title="Update First Name"
+                        variant="bare"
+                        size="medium"
+                        onclick={handleFirstNameEdit}
+                      ></lightning-button-icon>
+                    </div>
+                    
+                    <template if:true={amountEdit}>
+                    <section aria-describedby="dialog-body-id-14" class="slds-popover slds-popover slds-popover_edit" role="dialog" style="position:absolute;top:0;left:0.0625rem" onfocusout={amountEditHandle}>
+                        <div class="slds-popover__body" id="dialog-body-id-141">
+                          <div class="slds-media">
+                            <div class="slds-media__body">
+                              <div class="slds-form-element slds-grid slds-wrap">
+                                <label class="slds-form-element__label slds-form-element__label_edit slds-no-flex" for="company-01">
+                                  <span class="slds-assistive-text">Amount</span>
+                                </label>
+                                <div class="slds-form-element__control slds-grow">
+                                  <input type="text" class="slds-input" id="company-011" value={opportunityRow.Amount} />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+                      </template>
+                    </td>
+                    <td data-label="StageName">
+                    <div class="slds-truncate" ondblclick={handleStageInline}>{opportunityRow.StageName}
+                        <lightning-button-icon
+                        class="slds-float_right"
+                        icon-name="utility:edit"
+                        alternative-text="Update First Name"
+                        title="Update First Name"
+                        variant="bare"
+                        size="medium"
+                        onclick={handleFirstNameEdit}
+                      ></lightning-button-icon>
+                    </div>
+                    <template if:true={stageEdit}>
+                        <section aria-describedby="dialog-body-id-14" class="slds-popover slds-popover slds-popover_edit" role="dialog" style="position:absolute;top:0;left:0.0625rem" onfocusout={stageEditHandle}>
+                            <div class="slds-popover__body" id="dialog-body-id-142">
+                              <div class="slds-media">
+                                <div class="slds-media__body">
+                                  <div class="slds-form-element slds-grid slds-wrap">
+                                    <label class="slds-form-element__label slds-form-element__label_edit slds-no-flex" for="company-01">
+                                      <span class="slds-assistive-text">StageName</span>
+                                    </label>
+                                    <div class="slds-form-element__control slds-grow">
+                                      <input type="text" class="slds-input" id="company-012" value={opportunityRow.StageName} />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </section>
+                          </template>
+                    </td>
+        
+                <td data-label="Close Date">
+                <div class="slds-truncate">{opportunityRow.CloseDate}</div>
+                </td>
+                </tr>
+            </template>
+
+
+
+            <template if:false={opportunityRow.Won}>
+                <template if:false={opportunityRow.Lost}>
+                <tr class="slds-hint-parent" key={opportunityRow.Id} style="background-color:rgb(255, 255, 255)">
+                <th data-label="Opportunity Name" scope="row">
+                <div class="slds-truncate" title="Cloudhub">
+                <a href="#" tabindex="-1">{opportunityRow.Name}</a>
+                </div>
+                </th>
+                <td data-label="Amount">
+                    <div class="slds-truncate" ondblclick={handleAmountInline}>{opportunityRow.Amount}
+                        <lightning-button-icon
+                        class="slds-float_right"
+                        icon-name="utility:edit"
+                        alternative-text="Update First Name"
+                        title="Update First Name"
+                        variant="bare"
+                        size="medium"
+                        onclick={handleFirstNameEdit}
+                      ></lightning-button-icon>
+                    </div>
+                    
+                    <template if:true={amountEdit}>
+                    <section aria-describedby="dialog-body-id-14" class="slds-popover slds-popover slds-popover_edit" role="dialog" style="position:absolute;top:0;left:0.0625rem" onfocusout={amountEditHandle}>
+                        <div class="slds-popover__body" id="dialog-body-id-143">
+                          <div class="slds-media">
+                            <div class="slds-media__body">
+                              <div class="slds-form-element slds-grid slds-wrap">
+                                <label class="slds-form-element__label slds-form-element__label_edit slds-no-flex" for="company-01">
+                                  <span class="slds-assistive-text">Amount</span>
+                                </label>
+                                <div class="slds-form-element__control slds-grow">
+                                  <input type="text" class="slds-input" id="company-013" value={opportunityRow.Amount} />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+                      </template>
+                    </td>
+                    <td data-label="StageName">
+                    <div class="slds-truncate" ondblclick={handleStageInline}>{opportunityRow.StageName}
+                        <lightning-button-icon
+                        class="slds-float_right"
+                        icon-name="utility:edit"
+                        alternative-text="Update First Name"
+                        title="Update First Name"
+                        variant="bare"
+                        size="medium"
+                        onclick={handleFirstNameEdit}
+                      ></lightning-button-icon>
+                    </div>
+                    <template if:true={stageEdit}>
+                        <section aria-describedby="dialog-body-id-14" class="slds-popover slds-popover slds-popover_edit" role="dialog" style="position:absolute;top:0;left:0.0625rem" onfocusout={stageEditHandle}>
+                            <div class="slds-popover__body" id="dialog-body-id-144">
+                              <div class="slds-media">
+                                <div class="slds-media__body">
+                                  <div class="slds-form-element slds-grid slds-wrap">
+                                    <label class="slds-form-element__label slds-form-element__label_edit slds-no-flex" for="company-01">
+                                      <span class="slds-assistive-text">StageName</span>
+                                    </label>
+                                    <div class="slds-form-element__control slds-grow">
+                                      <input type="text" class="slds-input" id="company-0112" value={opportunityRow.StageName} />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </section>
+                          </template>
+                    </td>
+        
+                <td data-label="Close Date">
+                <div class="slds-truncate">{opportunityRow.CloseDate}</div>
+                </td>
+                </tr>
+                </template>
+            </template>
+
+
+
+            </template>
+            </tbody>
+            </table>
+    </div>
+</template>

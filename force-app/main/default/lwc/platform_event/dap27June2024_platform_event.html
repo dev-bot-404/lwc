@@ -1,0 +1,19 @@
+<template>
+    <div class="slds-box slds-theme_default">
+        <lightning-datatable
+                key-field="Id"
+                data={recordToShow}
+                columns={columns}
+                onrowaction={handleRowAction}
+                hide-checkbox-column="True">
+        </lightning-datatable>
+        
+        <div style="float: right;">
+            <lightning-button label="Next" title="Non-primary action" onclick={handleNextClick} icon-position="right" class="slds-m-left_x-small" disabled={nextbut}></lightning-button>
+        </div>
+        
+        <lightning-button label="Previous" title="Non-primary action" onclick={handlePreviousClick} class="slds-m-left_x-small" disabled={prevbut}></lightning-button>
+        
+        
+    </div>
+</template>

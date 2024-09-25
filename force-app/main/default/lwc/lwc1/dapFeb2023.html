@@ -1,0 +1,211 @@
+<template>
+    <div class="slds-box bodyColor">
+        <div class="slds-grid slds-wrap ">
+            <div class="slds-col slds-size_6-of-12 slds-var-p-around_medium">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input
+                            label="Account Name"
+                            onchange={search}
+                            onfocus={showPickListOptions}
+                            type="search"
+                            value={selectedValue}
+                        >
+                        </lightning-input>
+                        <div
+                            if:true={searchResults}
+                            class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                            role="listbox"
+                        >
+                            <ul
+                                class="slds-listbox slds-listbox_vertical"
+                                role="presentation"
+                            >
+                                <template
+                                    for:each={searchResults}
+                                    for:item="searchResult"
+                                >
+                                    <li
+                                        key={searchResult.value}
+                                        data-value={searchResult.value}
+                                        role="presentation"
+                                        onclick={selectSearchResult}
+                                        class="slds-listbox__item"
+                                    >
+                                        <div
+                                            class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                            role="option"
+                                        >
+                                            <span class="slds-media__body">
+                                                <span
+                                                    class="slds-truncate"
+                                                    title={searchResult.label}
+                                                >
+                                                    {searchResult.label}
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_6-of-12 slds-var-p-around_medium">
+                <lightning-combobox label="Contacts"
+                                    value={value}
+                                    placeholder="Select Contact"
+                                    options={contactOptions}
+                                    onchange={handleSelectedContact}
+                                    disabled={disableContactField} ></lightning-combobox>
+            </div>
+
+            <div class="slds-col slds-size_6-of-12 slds-var-p-around_medium">
+                <lightning-combobox label="PriceBook"
+                                    value={value}
+                                    placeholder="Select PriceBook"
+                                    options={pricebookOptions}
+                                    onchange={handleSelectedPricebook}>
+                </lightning-combobox>
+            </div>
+
+            <div class="slds-col slds-size_6-of-12 slds-var-p-around_medium">
+                <lightning-input type="date" class="closeDate" label="Close Date" onchange={handleCloseDate}></lightning-input>
+                   
+            </div>
+        
+
+            <div class="slds-col slds-size_12-of-12 slds-var-p-around_medium">
+                    <div if:true={isLoaded} class="cstm-spinner">
+                        <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+                    </div>
+                
+                    <div class="slds-m-around--xx-large container-fluid">
+                        
+                
+                        <div class="container-fluid">        
+                            <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+                                <thead>
+                                    <tr class="slds-text-title_caps">
+                
+                                        <th scope="col">
+                
+                                            <div class="slds-truncate">Nr</div>
+                
+                                        </th>
+                
+                                        <th scope="col">
+                
+                                            <div class="slds-truncate" title="Product">Product</div>
+                
+                                        </th>
+                
+                                        <th scope="col">
+                
+                                            <div class="slds-truncate" title="Quantity">Quantity</div>
+                
+                                        </th>
+                
+                                        <th scope="col">
+                
+                                            <div class="slds-truncate" title="UnitPrice">UnitPrice</div>
+                
+                                        </th>
+                
+                                        <th scope="col">
+                
+                                            <div class="slds-truncate" title="ListPrice">ListPrice</div>
+                
+                                        </th>
+
+                                        <th scope="col">
+                
+                                            <div class="slds-truncate" title="Total">Total</div>
+                
+                                        </th>
+                
+                                    </tr>
+                
+                                </thead>   
+                
+                                <tbody>      
+                
+                                    <template for:each={oliList} for:item="prod" for:index="indx">
+                
+                                        <tr key={prod.key} data-id={prod.key}> 
+                
+                                            <td>{indx}</td>                                                  
+                
+                                            <td>
+                
+                                                <lightning-combobox label="Product"
+                                                                    value={prod.Name}
+                                                                    placeholder="Select Product"
+                                                                    options={productOptions}
+                                                                    onchange={handleSelectedProduct}
+                                                                    data-id={prod.key}
+                                                                    >
+                                                </lightning-combobox>                               
+                
+                                            </td>
+                
+                                            <td>
+                
+                                                <lightning-input data-id={prod.key} value={prod.Quantity} onchange={handleQuantityChange}></lightning-input>                        
+                
+                                            </td>
+                
+                                            <td>
+                
+                                                <span data-id={indx} label="UnitPrice" value={prod.UnitPrice}>{prod.UnitPrice}</span>
+                
+                                            </td>
+
+                                            <td>
+                
+                                                <span data-id={indx} label="ListPrice" value={prod.ListPrice}>{prod.ListPrice}</span>
+                
+                                            </td>
+
+                                            <td>
+                
+                                                <span data-id={indx} label="Total" value={prod.total}>{prod.Total}</span>
+                
+                                            </td>
+                
+                                        </tr>
+                
+                                    </template>
+                
+                                </tbody>
+                            
+                            
+                
+                            </table>
+                            
+                            
+                            <br><br>   
+                    
+                           
+                           
+                            <!-- sldsValidatorIgnoreNextLine -->
+                            <lightning-button-icon icon-name="utility:add" label="Add" size="medium" variant="brand" alternative-text="Add" onclick={addRow}> </lightning-button-icon>
+                            <!-- sldsValidatorIgnoreNextLine -->
+                            <lightning-button-icon icon-name="utility:delete" label="Delete" size="medium" variant="neutral" alternative-text="Delete" onclick={removeAllRow}> </lightning-button-icon>
+
+                            <div class="slds-align_absolute-center slds-p-top_small">                
+                
+                                <lightning-button name="Save" label="Save" onclick={saveRecord} ></lightning-button>
+                
+                            </div>
+                
+                        </div>
+                
+                    </div>
+            </div>
+
+        </div>
+    </div> 
+</template>

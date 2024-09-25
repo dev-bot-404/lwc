@@ -1,0 +1,11 @@
+<template>
+    <lightning-card title="Account Hierarchy">
+        <lightning-tree-grid
+            key-field="Id"
+            columns={gridColumns}
+            data={hierarchyMap}
+            hide-checkbox-column
+            is-loading={isLoading}>
+        </lightning-tree-grid>
+    </lightning-card>
+</template>

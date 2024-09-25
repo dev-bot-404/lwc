@@ -1,0 +1,33 @@
+.bodyColor{
+    
+    background-color: #f4f6f9;
+    
+}
+.childbodyColor{
+    
+    background-color: white;
+    
+}
+
+
+.mybutton {
+    --slds-c-button-success-color-background: yellow;
+    --slds-c-button-text-color:blue;
+  }
+
+.mycancelbutton {
+    --slds-c-button-success-color-background: grey;
+    --slds-c-button-text-color:black;
+  }
+
+.myicon{
+    
+    background-color: yellow;
+    
+}
+
+.searchName{
+        background-color: white;
+        border: none;
+        color: blue;
+}

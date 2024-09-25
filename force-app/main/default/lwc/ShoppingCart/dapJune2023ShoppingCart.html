@@ -1,0 +1,198 @@
+<!-- sldsValidatorIgnore --> 
+<!-- sldsValidatorIgnore -->
+<template>
+    <div class="slds-box bodyColor">
+        
+            
+            <template if:true={showProducts}>
+                <div class="slds-grid slds-wrap ">
+                        <div class="slds-col slds-size_11-of-12 slds-var-p-around_medium">
+                                <div class="navBar">Heavy-Duty Blenders</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-12 slds-var-p-around_medium">
+                            <template if:true={showCartQuantity}>
+                                <lightning-button
+                                    variant="base"
+                                    label={count}
+                                    title="Cart Quantity"
+                                    onclick={handleCart}
+                                    icon-name="utility:cart"
+                                    class="slds-p-around_xxx-small cart">
+                                </lightning-button>
+                            </template>
+                        </div>
+
+                    <div class="slds-grid slds-wrap">
+                        <template for:each = {products} for:item="item">
+                            <div key = {item.Product2Id} >
+                                <div class="slds-col slds-size_4-of-12 ">
+                                <lightning-card>
+                                    <img src={item.DisplayUrl} alt="Example image" class="image"><br>
+                                    <center><B>{item.Name}</B></center><br>
+                                    <center><B>{item.Description}</B></center><br>
+                                    <center><B>Rs. {item.UnitPrice}</B></center><br>
+                                    <center> <lightning-button variant="brand" value={item} label="Add to Cart" title="Primary action" onclick={addToCart} class="slds-m-left_x-small"></lightning-button> </center>
+                                </lightning-card>
+                                </div>
+                            </div>
+                        </template>
+                    </div>  
+                </div>       
+            </template>
+
+            <template if:true={showCart}>
+                    
+                    <div class="slds-grid slds-wrap ">
+                        <div class="slds-col slds-size_8-of-12 ">  
+                            <B style="font-size: 20px;" class="slds-p-left_x-small"> Shopping Cart </B><br><br>  
+                            <div class="slds-m-around--xx-large container-fluid">
+                        
+                
+                                <div class="container-fluid">        
+                                    <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+                                        <thead>
+                                            <tr class="slds-text-title_caps">
+                        
+                                                <th scope="col">
+                                                    <div class="slds-truncate" title="Product">Product</div>
+                                                </th>
+
+                                                <th scope="col">
+
+                                                </th>
+                        
+                                                <th scope="col">
+                        
+                                                    <div class="slds-truncate" title="Quantity">Quantity</div>
+                        
+                                                </th>
+                        
+                                                <th scope="col">
+                        
+                                                    <div class="slds-truncate" title="UnitPrice">UnitPrice</div>
+                        
+                                                </th>
+
+                                                <th scope="col">
+                        
+                        
+                                                </th>
+                        
+                                            </tr>
+                        
+                                        </thead>   
+                        
+                                        <tbody>      
+                        
+                                            <template for:each={addedToCart} for:item="prod" for:index="indx">
+                        
+                                                <tr key={prod.Id} data-id={prod.Id}> 
+
+                                                    <td>
+                                                        <img src={prod.DisplayUrl} alt="Example image" style = "width: 100px; height: 100px">               
+                        
+                                                    </td>
+                        
+                                                    <td>
+                        
+                                                        <B> {prod.Name} </B>                        
+                        
+                                                    </td>
+                        
+                                                    <td>
+                        
+                                                        <input type="number" data-id={prod.Id} value={prod.Quantity} onchange={updateAddedProductQuantity} name="quantity" min="1" max="5">
+                        
+                                                    </td>
+        
+                                                    <td>
+                        
+                                                        <B> {prod.UnitPrice} </B>
+                        
+                                                    </td>
+        
+                                                    <td data-id = {prod}>
+                        
+                                                        <lightning-button
+                                                            variant="neutral"
+                                                            title="Cart Quantity"
+                                                            onclick={removeProduct}
+                                                            icon-name="utility:close"
+                                                            data-id={prod.Id}
+                                                            class="slds-p-right_small cross">
+                                                        </lightning-button>
+                        
+                                                    </td>
+                        
+                                                </tr>
+                        
+                                            </template>
+                        
+                                        </tbody>
+                                    </table>
+                
+                                </div>
+                            </div>
+
+                                
+                        </div>
+                        <template if:true={showPromocode}>
+                        <div class="slds-col slds-size_4-of-12 slds-box">
+                            
+                            <B> PROMO CODE </B>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_8-of-12">
+                                    <lightning-input data-id="inputField"  class="slds-m-right_x-small" type="text" placeholder="Enter Promo Code..."></lightning-input>
+                                    <template if:true = {couponApplied}><P style="color: green"> {coupon} Applied Successfully!! </P></template>
+                                   
+                                </div>
+                                <div class="slds-col slds-size_4-of-12">
+                                    <button class="slds-button slds-button_success slds-m-left_x-small" onclick = {clickApply}>Apply</button>
+                                    <template if:true = {couponApplied}> 
+                                        <lightning-button
+                                                            variant="base"
+                                                            onclick={deleteClick}
+                                                            icon-name="utility:close"
+                                                            class="slds-p-right_small promocodeDelete">
+                                        </lightning-button>
+                                    </template>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_10-of-12">
+                                    Subtotal :     
+                                </div>
+                                <div class="slds-col slds-size_2-of-12">
+                                    {totalAmount}
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_10-of-12">
+                                    Total After Discount :     
+                                </div>
+                                <div class="slds-col slds-size_2-of-12">
+                                    {discountedPrice}
+                                </div>
+                            </div>
+                            <HR>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_10-of-12">
+                                    Estimate Total :     
+                                </div>
+                                <div class="slds-col slds-size_2-of-12">
+                                   <B> {discountedPrice}</B>
+                                </div>
+                            </div><br>
+                            <Center><button class="slds-button slds-button_success slds-m-left_x-small" onclick = {createOpp}>Checkout</button></center>    
+                        </div>
+                        </template>
+
+                    </div>
+
+            </template>
+
+
+        
+    </div>
+</template>

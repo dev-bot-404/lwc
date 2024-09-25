@@ -1,0 +1,149 @@
+
+<template>
+    <div class="slds-box bodyColor">
+
+       
+        <template if:true={searchContact}>
+
+            <div class="slds-grid slds-wrap ">
+                <lightning-icon icon-name="standard:note" alternative-text="icon" class="myicon"></lightning-icon>
+                <div class="slds-size_6-of-12 slds-var-p-around_xx-small slds-text-body_regular">Intern Form</div>
+                <div class="slds-col slds-clearfix">
+                    <button class="slds-button slds-button_success mybutton slds-m-left_x-small slds-float_right"
+                        onclick={handleNewContact}>New</button>
+                </div>
+            </div>
+
+
+            <div class="slds-box slds-m-around_x-small childbodyColor">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_6-of-12 slds-var-p-around_medium">
+                        <lightning-input type="email" class="mail" label="Email" placeholder="type your email here..."
+                            onchange={handleSearch}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 slds-var-p-around_medium">
+                        <lightning-input type="tel" class="phone" label="Phone"
+                            placeholder="type your phone number here..."></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_12-of-12">
+                        <center><button class="slds-button slds-button_success mybutton slds-m-left_x-small "
+                                onclick={handleSearch}>Search</button></center>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <lightning-card class="slds-p-around_large">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered"
+                        aria-labelledby="element-with-table-label other-element-with-table-label">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="name" scope="col">
+                                    <div class="slds-truncate" title="Name">Name</div>
+                                </th>
+                                <th class="email" scope="col">
+                                    <div class="slds-truncate" title="Email">Email</div>
+                                </th>
+                                <th class="phone" scope="col">
+                                    <div class="slds-truncate" title="Phone">Phone</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={recordsFromApex} for:item="con">
+                                <tr key={con}>
+                                    <td><button class="searchName"
+                                            onclick={handleContactRecord} data-email={con.Email}
+                                            data-recordid={con.Id}>{con.Name}</button></td>
+                                    <td>{con.Email}</td>
+                                    <td>{con.Phone}</td>
+
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </lightning-card>
+            </div>
+        </template>
+
+        <!-- Modal Code  -->
+        <template if:true={isShowModal}>
+
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- modal header start -->
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                            title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                                size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">OTP</h2>
+                    </header>
+
+                    <!-- modal body start -->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-input type="otp" class="otp" label="Enter OTP" placeholder="Type the OTP seent on the email here..." onchange={enteredOtp} ></lightning-input>
+                    </div>
+
+                    <!-- modal footer start-->
+                    <footer class="slds-modal__footer">
+                        
+                        <lightning-button label="Cancel" variant="Nuetral" onclick={closeModal}></lightning-button>
+                        <button class="slds-button slds-button_success mybutton"
+                        onclick={handleOTP}>Submit</button>
+                    </footer>
+
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+
+        <!-- view record -->
+
+        <template if:true={viewRecord}>
+            <div class="slds-col slds-clearfix">
+                
+                <button class="slds-button slds-button_success mybutton slds-m-left_x-small slds-float_right"
+                        onclick={editRecordbutton}>Edit</button>
+                <button class="slds-button slds-button_success mycancelbutton slds-m-left_x-small slds-float_right"
+                        onclick={cancelButton}>Cancel</button>
+            </div>
+            <lightning-card title="Contact">
+                <lightning-record-form
+                    record-id={recordid}
+                    object-api-name={objectApiName}
+                    layout-type="Compact"
+                    columns="2"
+                    mode="readonly">
+                </lightning-record-form>
+            </lightning-card>
+        </template>
+
+        <!-- edit record -->
+        <template if:true={editRecord}>
+            <div class="slds-col slds-clearfix">
+                
+                <button class="slds-button slds-button_success mybutton slds-m-left_x-small slds-float_right"
+                    onclick={viewRecord}>Save</button>
+                <button class="slds-button slds-button_success mycancelbutton slds-m-left_x-small slds-float_right"
+                    onclick={cancelButton}>Cancel</button>
+            </div>
+            <lightning-card title="Contact">
+                <lightning-record-form
+                    record-id={recordid}
+                    object-api-name={objectApiName}
+                    layout-type="Compact"
+                    columns="2"
+                    mode="edit">
+                </lightning-record-form>
+            </lightning-card>
+        </template>
+
+
+    </div>
+
+
+</template>

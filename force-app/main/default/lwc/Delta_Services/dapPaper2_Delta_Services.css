@@ -1,0 +1,28 @@
+.column {
+    float: left;
+    width: 50%;
+    margin-block: 5px;
+    height: 10em;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+.open{
+    background-color: aquamarine;
+    height: 100%;
+}
+.closedwon{
+    background-color: lightgreen;
+    height: 100%;
+
+}
+.closedlost{
+    background-color: lightcoral;
+    height: 100%;
+
+}

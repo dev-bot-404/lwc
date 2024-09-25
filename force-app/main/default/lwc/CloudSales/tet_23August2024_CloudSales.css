@@ -1,0 +1,13 @@
+.slds-theme_success {
+    background-color: rgb(199, 255, 199);
+
+}
+
+.slds-theme_error {
+    background-color: rgb(255, 174, 174);
+    
+}
+
+.slds-theme_default {
+    background-color: white;
+}
